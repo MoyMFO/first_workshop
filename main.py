@@ -31,18 +31,21 @@ print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['median_ts_
 print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['Orderbook Imbalance']}")
 
 # -- Ejercicios de repaso
-data_ob[list(data_ob.keys())[1]]['bid_size'][0]
+#data_ob[list(data_ob.keys())[1]]['bid_size'][0]
 
-libro_0 = data_ob[list(data_ob.keys())[0]].copy()
+#libro_0 = data_ob[list(data_ob.keys())[0]].copy()
 
-libro_0.index = libro_0.index.astype(np.int64)
+#libro_0.index = libro_0.index.astype(np.int64)
 
 # Compresion de listas [elemento1, elemento2, elemento3...]
-lista_nueva = [i + 1e3 for i in list(libro_0['bid_size'])]
+#lista_nueva = [i + 1e3 for i in list(libro_0['bid_size'])]
 
 # Compresion diccionario {"llave 1": objeto, "llave 2": objeto ...}
-llave_nueva = {"llave_"+str(i) : list(libro_0['bid_size'])[i] for i in range(0, len(list(libro_0['bid_size'])))}
+#llave_nueva = {"llave_"+str(i) : list(libro_0['bid_size'])[i] for i in range(0, len(list(libro_0['bid_size'])))}
 
-
-#plot_1 = vz.plot_lines(data_x=list(data_ob.keys()),
-#                       data_s1=)
+# --Plot 1-- #
+plot_1 = vz.plot_lines(data_x=list(data_ob.keys()),
+                       data_s1=data_1['Orderbook Imbalance'],
+                       data_s2=data_1['wighted-Midprice'],
+                       data_s3=data_1['VWAP'])
+plot_1.show()
