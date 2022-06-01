@@ -8,10 +8,11 @@
 # -- repository: YOUR REPOSITORY URL                                                                     -- #
 # -- --------------------------------------------------------------------------------------------------- -- #
 """
+from matplotlib.figure import Figure
 import numpy as np
 import plotly.graph_objects as go
 
-def plot_lines(data_x, data_s1, data_s2, data_s3):
+def plot_lines(data_x, data_s1, data_s2, data_s3) -> Figure:
 
     """
     References
