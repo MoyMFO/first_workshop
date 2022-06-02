@@ -8,11 +8,11 @@
 # -- repository: YOUR REPOSITORY URL                                                                     -- #
 # -- --------------------------------------------------------------------------------------------------- -- #
 """
-
 import data as dt
 import functions as fn
 import numpy as np
 import visualizations as vz
+from functions2 import OrderBookMeasures
 
 # Read input data
 data_ob = dt.ob_data
@@ -22,13 +22,14 @@ n_libros = len(list(data_ob.keys()))
 print(f"La cantidad total de libros de ordenes es: {n_libros}")
 
 # OrderBook Metrics
-data_1 = fn.f_descriptive_ob(data_ob=data_ob) 
+data_1 = fn.f_descriptive_ob(data_ob=data_ob)
+data_2 = OrderBookMeasures(data_ob=data_ob) 
 
 # Celda 3
-print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['median_ts_ob']}")
+# print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['median_ts_ob']}")
 
 # Celda 4
-print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['Orderbook Imbalance']}")
+print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_2.meadianTimeOB()}")
 
 # -- Ejercicios de repaso
 #data_ob[list(data_ob.keys())[1]]['bid_size'][0]
@@ -44,8 +45,8 @@ print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['Orderbook 
 #llave_nueva = {"llave_"+str(i) : list(libro_0['bid_size'])[i] for i in range(0, len(list(libro_0['bid_size'])))}
 
 # --Plot 1-- #
-plot_1 = vz.plot_lines(data_x=list(data_ob.keys()),
-                       data_s1=data_1['Orderbook Imbalance'],
-                       data_s2=data_1['wighted-Midprice'],
-                       data_s3=data_1['VWAP'])
-plot_1.show()
+# plot_1 = vz.plot_lines(data_x=list(data_ob.keys()),
+#                        data_s1=data_1['Orderbook Imbalance'],
+#                       data_s2=data_1['wighted-Midprice'],
+#                       data_s3=data_1['VWAP'])
+#plot_1.show()
