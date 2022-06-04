@@ -29,7 +29,7 @@ data_2 = OrderBookMeasures(data_ob=data_ob)
 # print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_1['median_ts_ob']}")
 
 # Celda 4
-print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_2.meadianTimeOB()}")
+print(f"Mediana del tiempo esperado para un nuevo OrderBook: {data_2.ob_imbalance()}")
 
 # -- Ejercicios de repaso
 #data_ob[list(data_ob.keys())[1]]['bid_size'][0]

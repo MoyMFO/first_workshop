@@ -38,7 +38,7 @@ class OrderBookMeasures:
         return [pd.to_datetime(i_ts) for i_ts in self.__ob_ts]
 
     # -- Median Time of OrderBook update -- #
-    def meadianTimeOB(self) -> float:
+    def meadian_time_ob(self) -> float:
         ob_m1 = np.median([self.__l_ts[n_ts + 1] - self.__l_ts[n_ts] for n_ts in range(0, len(self.__l_ts)-1)]).total_seconds() * 1000
         return ob_m1
 
@@ -50,56 +50,58 @@ class OrderBookMeasures:
         return ob_m2
 
     # -- Midprice -- #
-    def midPrice(self) -> list:
+    def mid_price(self) -> list:
         ob_m3 = [(self.data_ob[self.__ob_ts[0]]['ask'][0] 
                 + self.data_ob[self.__ob_ts[0]]['bid'][0])*0.5 
                 for i in range(0, len(self.__ob_ts))]
         return ob_m3
 
     # -- No. Price Levels -- #
-    def priceLevels(self) -> list:
+    def price_levels(self) -> list:
         ob_m4 = [self.data_ob[i_ts].shape[0] for i_ts in self.__ob_ts]
         return ob_m4
 
      # -- Bid_Volume -- #
-    def bidVolume(self) -> list:
+    def bid_volume(self) -> list:
         ob_m5 = [np.round(self.data_ob[i_ts]['bid_size'].sum(), 6) 
                  for i_ts in self.__ob_ts]
         return ob_m5
 
      # -- Ask_Volume -- #
-    def askVolume(self) -> list:
+    def ask_volume(self) -> list:
         ob_m6 = [np.round(self.data_ob[i_ts]['ask_size'].sum(), 6) 
                 for i_ts in self.__ob_ts]
         return ob_m6
 
      # -- Total_Volume -- #
-    def totalVolume(self) -> list:
+    def total_volume(self) -> list:
         ob_m7 = [np.round(self.data_ob[i_ts]['bid_size'].sum() 
                  + self.data_ob[i_ts]['ask_size'].sum(), 6) for i_ts in self.__ob_ts]
         return ob_m7
 
     # -- OrderBook Imbalance (v: volume, d: depth) -- #
-    # v[0] Bid volume, v[1] Ask volume 
-    def obImbalance(self) -> list:
-        obimb = lambda v, d: np.sum(v.iloc[:d,0])/np.sum([v.iloc[:d,0], v.iloc[:d,1]])
-        ob_m8 = [obimb(self.data_ob[i_ts][['bid_size','ask_size']],
+    def ob_imbalance(self) -> list:
+        # v[0] Bid volume, v[1] Ask volume 
+        def __obimb(v, d): return np.sum(v.iloc[:d,0])/np.sum([v.iloc[:d,0], v.iloc[:d,1]])
+        ob_m8 = [__obimb(self.data_ob[i_ts][['bid_size','ask_size']],
                  len(self.data_ob[i_ts])) for i_ts in self.__ob_ts]
         return ob_m8
 
     # -- wighted-Midprice (p: price, v: volume) -- #
-    def w_midPrice(self) -> list:
+    def w_midprice(self) -> list:
         # w_midprice = lambda p, v: (v.iloc[:,1]/np.sum([v.iloc[:,0], v.iloc[:,1]]))*p.iloc[:,0] + (v.iloc[:,0]/np.sum([v.iloc[:,0], v.iloc[:,1]]))*p.iloc[:,1]
         # ob_m9  = [w_midprice(data_ob[i_ts][['bid','ask']], data_ob[i_ts][['bid_size', 'ask_size']]) for i_ts in ob_ts]
-        ob_m8 = self.obImbalance()
-        ob_m3 = self.midPrice()
+        ob_m8 = self.ob_imbalance()
+        ob_m3 = self.mid_price()
         ob_m9 = [ob_m8[i_ts] * ob_m3[i_ts] for i_ts in range(0, len(self.__ob_ts))]
         return ob_m9
 
     # -- VWAP (Volume-Weighted Average Price) (p: price, v: volume, d:depth) -- #
     def vwap(self) -> list:
         # p[0]:Bid price, p[1]:Ask price, v[0]: Bid volume, v[1]: Ask volume
-        vwap = lambda p, v, d: np.sum(p.iloc[:d, 0] * v.iloc[:d,0] + p.iloc[:d,1] * v.iloc[:d,1]) / np.sum(v.iloc[:d,0] + v.iloc[:d,1])
-        ob_m10 = [vwap(self.data_ob[i_ts][['bid', 'ask']], self.data_ob[i_ts][['bid_size', 'ask_size']], 
+        def __vwap_calculation(p, v, d): return np.sum(p.iloc[:d, 0] * v.iloc[:d,0] + p.iloc[:d,1] * v.iloc[:d,1]) / np.sum(v.iloc[:d,0] + v.iloc[:d,1])
+        ob_m10 = [__vwap_calculation(self.data_ob[i_ts][['bid', 'ask']], self.data_ob[i_ts][['bid_size', 'ask_size']], 
                  len(self.data_ob[i_ts])) for i_ts in self.__ob_ts]
         return ob_m10
+
+
